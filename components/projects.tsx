@@ -1,72 +1,37 @@
 "use client"
 
 import { useState } from "react"
-import { ExternalLink, Github, Folder, Code, Cpu, Globe, Database, Smartphone } from "lucide-react"
+import { ExternalLink, Github, Star, GitFork, AlertCircle, Code } from "lucide-react"
 
+// Real data from GitHub API - sovscode repos
 const projects = [
   {
     id: 1,
-    name: "neural-net-viz",
-    description: "Interactive neural network visualizer for understanding deep learning architectures",
-    tech: ["Python", "TensorFlow", "React"],
-    author: "alice",
+    name: "logicbox",
+    description: "A BoxProver alternative!",
+    tech: ["Scala"],
     status: "active",
-    icon: Cpu,
-    github: "https://github.com",
-    demo: "https://example.com",
+    github: "https://github.com/sovscode/logicbox",
+    demo: "https://logicbox.dk",
+    stars: 2,
+    forks: 0,
+    openIssues: 13,
+    license: "MIT",
+    updatedAt: "2026-03-18",
   },
   {
     id: 2,
-    name: "terminal-chat",
-    description: "P2P encrypted chat application with a retro terminal interface",
-    tech: ["Rust", "WebRTC", "TUI"],
-    author: "bob",
+    name: "cocode",
+    description: "Tool for presenters who use VSCode to teach coding, to take live code contributions from spectators",
+    tech: ["TypeScript"],
     status: "active",
-    icon: Code,
-    github: "https://github.com",
-  },
-  {
-    id: 3,
-    name: "algo-trainer",
-    description: "LeetCode-style platform for practicing algorithms with real-time feedback",
-    tech: ["Go", "PostgreSQL", "Next.js"],
-    author: "charlie",
-    status: "beta",
-    icon: Database,
-    github: "https://github.com",
-    demo: "https://example.com",
-  },
-  {
-    id: 4,
-    name: "git-garden",
-    description: "Gamified version control learning tool with visual branch visualization",
-    tech: ["TypeScript", "D3.js", "Node.js"],
-    author: "diana",
-    status: "active",
-    icon: Globe,
-    github: "https://github.com",
-    demo: "https://example.com",
-  },
-  {
-    id: 5,
-    name: "pocket-compiler",
-    description: "A tiny compiler that fits in your pocket, teaching compilation basics",
-    tech: ["C", "LLVM", "Assembly"],
-    author: "eve",
-    status: "dev",
-    icon: Folder,
-    github: "https://github.com",
-  },
-  {
-    id: 6,
-    name: "studymate-app",
-    description: "AI-powered study companion with spaced repetition and note-taking",
-    tech: ["Swift", "CoreML", "Firebase"],
-    author: "frank",
-    status: "active",
-    icon: Smartphone,
-    github: "https://github.com",
-    demo: "https://example.com",
+    github: "https://github.com/sovscode/cocode",
+    demo: "https://cocode.felixberg.dev/",
+    stars: 1,
+    forks: 0,
+    openIssues: 9,
+    license: null,
+    updatedAt: "2026-03-20",
   },
 ]
 
@@ -104,7 +69,7 @@ export function Projects() {
             <button
               key={status}
               onClick={() => setFilter(status)}
-              className={`rounded border px-3 py-1.5 text-xs transition-colors ${
+              className={`cursor-pointer border px-3 py-1.5 text-xs transition-colors ${
                 filter === status
                   ? "border-primary bg-primary text-primary-foreground"
                   : "border-border bg-card text-muted-foreground hover:border-primary hover:text-primary"
@@ -116,84 +81,105 @@ export function Projects() {
         </div>
 
         {/* Projects grid */}
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {filteredProjects.map((project) => {
-            const Icon = project.icon
-            return (
-              <div
-                key={project.id}
-                className="group relative overflow-hidden border border-border bg-card p-4 transition-all hover:border-primary"
-                onMouseEnter={() => setHoveredId(project.id)}
-                onMouseLeave={() => setHoveredId(null)}
-              >
-                {/* Scanline effect on hover */}
-                {hoveredId === project.id && (
-                  <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(transparent_50%,rgba(255,255,255,0.02)_50%)] bg-[length:100%_4px]" />
-                )}
+        <div className="grid gap-4 md:grid-cols-2">
+          {filteredProjects.map((project) => (
+            <div
+              key={project.id}
+              className="group relative overflow-hidden border border-border bg-card p-4 transition-all hover:border-primary"
+              onMouseEnter={() => setHoveredId(project.id)}
+              onMouseLeave={() => setHoveredId(null)}
+            >
+              {/* Scanline effect on hover */}
+              {hoveredId === project.id && (
+                <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(transparent_50%,rgba(255,255,255,0.02)_50%)] bg-[length:100%_4px]" />
+              )}
 
-                <div className="relative z-10">
-                  {/* Header */}
-                  <div className="mb-3 flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <Icon className="h-4 w-4 text-primary" />
-                      <span className="font-bold text-foreground">
-                        {project.name}
-                      </span>
-                    </div>
+              <div className="relative z-10">
+                {/* Header */}
+                <div className="mb-3 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Code className="h-4 w-4 text-primary" />
+                    <span className="font-bold text-foreground">
+                      {project.name}
+                    </span>
+                  </div>
+                  <span
+                    className={`text-xs ${statusColors[project.status]}`}
+                  >
+                    [{project.status}]
+                  </span>
+                </div>
+
+                {/* Description */}
+                <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+                  {project.description}
+                </p>
+
+                {/* Tech stack */}
+                <div className="mb-4 flex flex-wrap gap-1.5">
+                  {project.tech.map((tech) => (
                     <span
-                      className={`text-xs ${statusColors[project.status]}`}
+                      key={tech}
+                      className="border border-border px-2 py-0.5 text-xs text-muted-foreground"
                     >
-                      [{project.status}]
+                      {tech}
                     </span>
-                  </div>
-
-                  {/* Description */}
-                  <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
-                    {project.description}
-                  </p>
-
-                  {/* Tech stack */}
-                  <div className="mb-4 flex flex-wrap gap-1.5">
-                    {project.tech.map((tech) => (
-                      <span
-                        key={tech}
-                        className="rounded border border-border px-2 py-0.5 text-xs text-muted-foreground"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Footer */}
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs text-muted-foreground">
-                      @{project.author}
+                  ))}
+                  {project.license && (
+                    <span className="border border-border px-2 py-0.5 text-xs text-muted-foreground">
+                      {project.license}
                     </span>
-                    <div className="flex items-center gap-2">
+                  )}
+                </div>
+
+                {/* Stats */}
+                <div className="mb-4 flex items-center gap-4 text-xs text-muted-foreground">
+                  <span className="flex items-center gap-1">
+                    <Star className="h-3 w-3" />
+                    {project.stars}
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <GitFork className="h-3 w-3" />
+                    {project.forks}
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <AlertCircle className="h-3 w-3" />
+                    {project.openIssues} issues
+                  </span>
+                  <span className="ml-auto">
+                    updated {project.updatedAt}
+                  </span>
+                </div>
+
+                {/* Footer */}
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-muted-foreground">
+                    @sovscode
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="cursor-pointer text-muted-foreground transition-colors hover:text-primary"
+                    >
+                      <Github className="h-4 w-4" />
+                    </a>
+                    {project.demo && (
                       <a
-                        href={project.github}
+                        href={project.demo}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-muted-foreground transition-colors hover:text-primary"
+                        className="cursor-pointer text-muted-foreground transition-colors hover:text-primary"
                       >
-                        <Github className="h-4 w-4" />
+                        <ExternalLink className="h-4 w-4" />
                       </a>
-                      {project.demo && (
-                        <a
-                          href={project.demo}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-muted-foreground transition-colors hover:text-primary"
-                        >
-                          <ExternalLink className="h-4 w-4" />
-                        </a>
-                      )}
-                    </div>
+                    )}
                   </div>
                 </div>
               </div>
-            )
-          })}
+            </div>
+          ))}
         </div>
       </div>
     </section>

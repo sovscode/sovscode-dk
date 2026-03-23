@@ -83,7 +83,7 @@ export function Hero() {
               <span className="text-primary">ls</span> -la ./projects
             </p>
             <p className="pl-4 text-muted-foreground">
-              total 6 projects | scroll down to explore ↓
+              total 2 projects | scroll down to explore
             </p>
           </div>
         </div>

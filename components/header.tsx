@@ -35,21 +35,21 @@ export function Header() {
           </span>
           <a
             href="#projects"
-            className="text-sm text-muted-foreground transition-colors hover:text-primary"
+            className="cursor-pointer text-sm text-muted-foreground transition-colors hover:text-primary"
           >
             ./projects
           </a>
           <a
             href="#members"
-            className="text-sm text-muted-foreground transition-colors hover:text-primary"
+            className="cursor-pointer text-sm text-muted-foreground transition-colors hover:text-primary"
           >
             ./members
           </a>
           <a
-            href="https://github.com"
+            href="https://github.com/sovscode"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-muted-foreground transition-colors hover:text-primary"
+            className="cursor-pointer text-muted-foreground transition-colors hover:text-primary"
           >
             <Github className="h-4 w-4" />
           </a>
