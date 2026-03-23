@@ -44,11 +44,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const fontClasses = [jetbrainsMono.variable, vt323.variable].join(" ")
-  
   return (
-    <html lang="en" className={fontClasses} suppressHydrationWarning>
-      <body className="font-mono antialiased">
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${jetbrainsMono.variable} ${vt323.variable} font-mono antialiased`}>
         {children}
         <Analytics />
       </body>

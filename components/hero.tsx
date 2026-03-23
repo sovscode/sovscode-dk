@@ -4,12 +4,11 @@ import { useState, useEffect } from "react"
 import type { OrgStats } from "@/lib/github"
 
 const ASCII_ART = `
-███████╗ ██████╗ ██╗   ██╗███████╗ ██████╗ ██████╗ ██████╗ ███████╗
-██╔════╝██╔═══██╗██║   ██║██╔════╝██╔════╝██╔═══██╗██╔══██╗██╔════╝
-███████╗██║   ██║██║   ██║███████╗██║     ██║   ██║██║  ██║█████╗  
-╚════██║██║   ██║╚██╗ ██╔╝╚════██║██║     ██║   ██║██║  ██║██╔══╝  
-███████║╚██████╔╝ ╚████╔╝ ███████║╚██████╗╚██████╔╝██████╔╝███████╗
-╚══════╝ ╚═════╝   ╚═══╝  ╚══════╝ ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝
+ ____   _____  _____   ______ ____  ____  ______
+/ ___) / ___ \\|  _  \\ / _____|  _ \\/ __ \\|  ___ \\  _____
+\\___ \\| |   | | | | | | |    | | | | |  | | |   | ||_____|
+ ___) | |___| | |_| | | |____| |_| | |__| | |___| ||_____|
+|____/ \\_____/|_____/ \\______|____/\\____/|______/
 `.trim()
 
 interface HeroProps {
@@ -49,7 +48,7 @@ export function Hero({ stats }: HeroProps) {
     <section className="px-4 py-16 md:px-8 md:py-24">
       <div className="mx-auto max-w-6xl">
         {/* ASCII Art Logo */}
-        <pre className="mb-8 overflow-x-auto text-[0.35rem] leading-tight text-primary md:text-[0.5rem] lg:text-xs">
+        <pre className="mb-8 overflow-x-auto text-xs leading-tight text-primary sm:text-sm md:text-base lg:text-lg">
           {ASCII_ART}
         </pre>
 
