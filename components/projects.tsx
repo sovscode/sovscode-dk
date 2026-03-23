@@ -2,38 +2,12 @@
 
 import { useState } from "react"
 import { ExternalLink, Github, Star, GitFork, AlertCircle, Code } from "lucide-react"
+import type { GitHubRepo } from "@/lib/github"
 
-// Real data from GitHub API - sovscode repos
-const projects = [
-  {
-    id: 1,
-    name: "logicbox",
-    description: "A BoxProver alternative!",
-    tech: ["Scala"],
-    status: "active",
-    github: "https://github.com/sovscode/logicbox",
-    demo: "https://logicbox.dk",
-    stars: 2,
-    forks: 0,
-    openIssues: 13,
-    license: "MIT",
-    updatedAt: "2026-03-18",
-  },
-  {
-    id: 2,
-    name: "cocode",
-    description: "Tool for presenters who use VSCode to teach coding, to take live code contributions from spectators",
-    tech: ["TypeScript"],
-    status: "active",
-    github: "https://github.com/sovscode/cocode",
-    demo: "https://cocode.felixberg.dev/",
-    stars: 1,
-    forks: 0,
-    openIssues: 9,
-    license: null,
-    updatedAt: "2026-03-20",
-  },
-]
+interface ProjectsProps {
+  repos: GitHubRepo[]
+  statuses: Record<string, "active" | "beta" | "dev">
+}
 
 const statusColors: Record<string, string> = {
   active: "text-primary",
@@ -41,14 +15,36 @@ const statusColors: Record<string, string> = {
   dev: "text-muted-foreground",
 }
 
-export function Projects() {
+export function Projects({ repos, statuses }: ProjectsProps) {
   const [filter, setFilter] = useState("all")
   const [hoveredId, setHoveredId] = useState<number | null>(null)
+
+  const projects = repos.map((repo) => ({
+    id: repo.id,
+    name: repo.name,
+    description: repo.description || "No description provided",
+    tech: repo.language ? [repo.language] : [],
+    status: statuses[repo.name] || "active",
+    github: repo.html_url,
+    demo: repo.homepage,
+    stars: repo.stargazers_count,
+    forks: repo.forks_count,
+    openIssues: repo.open_issues_count,
+    license: repo.license?.spdx_id || null,
+    updatedAt: new Date(repo.updated_at).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    }),
+    topics: repo.topics,
+  }))
 
   const filteredProjects =
     filter === "all"
       ? projects
       : projects.filter((p) => p.status === filter)
+
+  const availableStatuses = ["all", ...new Set(projects.map((p) => p.status))]
 
   return (
     <section id="projects" className="border-t border-border px-4 py-16 md:px-8">
@@ -65,7 +61,7 @@ export function Projects() {
 
         {/* Filter tabs */}
         <div className="mb-8 flex flex-wrap gap-2">
-          {["all", "active", "beta", "dev"].map((status) => (
+          {availableStatuses.map((status) => (
             <button
               key={status}
               onClick={() => setFilter(status)}
@@ -115,7 +111,7 @@ export function Projects() {
                   {project.description}
                 </p>
 
-                {/* Tech stack */}
+                {/* Tech stack & topics */}
                 <div className="mb-4 flex flex-wrap gap-1.5">
                   {project.tech.map((tech) => (
                     <span
@@ -123,6 +119,14 @@ export function Projects() {
                       className="border border-border px-2 py-0.5 text-xs text-muted-foreground"
                     >
                       {tech}
+                    </span>
+                  ))}
+                  {project.topics.slice(0, 3).map((topic) => (
+                    <span
+                      key={topic}
+                      className="border border-accent/30 bg-accent/10 px-2 py-0.5 text-xs text-accent"
+                    >
+                      {topic}
                     </span>
                   ))}
                   {project.license && (
@@ -147,7 +151,7 @@ export function Projects() {
                     {project.openIssues} issues
                   </span>
                   <span className="ml-auto">
-                    updated {project.updatedAt}
+                    {project.updatedAt}
                   </span>
                 </div>
 
@@ -181,6 +185,12 @@ export function Projects() {
             </div>
           ))}
         </div>
+
+        {filteredProjects.length === 0 && (
+          <div className="border border-border bg-card p-8 text-center text-muted-foreground">
+            No projects found with status {"--"}{filter}
+          </div>
+        )}
       </div>
     </section>
   )

@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import type { OrgStats } from "@/lib/github"
 
 const ASCII_ART = `
 ███████╗ ██████╗ ██╗   ██╗███████╗ ██████╗ ██████╗ ██████╗ ███████╗
@@ -11,7 +12,11 @@ const ASCII_ART = `
 ╚══════╝ ╚═════╝   ╚═══╝  ╚══════╝ ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝
 `.trim()
 
-export function Hero() {
+interface HeroProps {
+  stats: OrgStats
+}
+
+export function Hero({ stats }: HeroProps) {
   const [displayedText, setDisplayedText] = useState("")
   const [cursorVisible, setCursorVisible] = useState(true)
   const [isTyping, setIsTyping] = useState(true)
@@ -83,8 +88,19 @@ export function Hero() {
               <span className="text-primary">ls</span> -la ./projects
             </p>
             <p className="pl-4 text-muted-foreground">
-              total 2 projects | scroll down to explore
+              total {stats.totalRepos} projects | {stats.totalStars} stars | {stats.totalContributors} contributors
             </p>
+            {stats.languages.length > 0 && (
+              <>
+                <p className="mt-4">
+                  <span className="text-muted-foreground">$</span>{" "}
+                  <span className="text-primary">echo</span> $LANGUAGES
+                </p>
+                <p className="pl-4 text-muted-foreground">
+                  [{stats.languages.join(", ")}]
+                </p>
+              </>
+            )}
           </div>
         </div>
       </div>

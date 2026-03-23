@@ -3,8 +3,25 @@ import { Hero } from "@/components/hero"
 import { Projects } from "@/components/projects"
 import { Members } from "@/components/members"
 import { Footer } from "@/components/footer"
+import { getOrgRepos, getAllContributors, getOrgStats, inferRepoStatus } from "@/lib/github"
 
-export default function Home() {
+export default async function Home() {
+  // Fetch all GitHub data at build time
+  const [repos, contributors, stats] = await Promise.all([
+    getOrgRepos(),
+    getAllContributors(),
+    getOrgStats(),
+  ])
+
+  // Build status map for repos
+  const statuses = repos.reduce(
+    (acc, repo) => {
+      acc[repo.name] = inferRepoStatus(repo)
+      return acc
+    },
+    {} as Record<string, "active" | "beta" | "dev">
+  )
+
   return (
     <div className="relative min-h-screen bg-background">
       {/* CRT scanline overlay */}
@@ -16,9 +33,9 @@ export default function Home() {
 
       <Header />
       <main>
-        <Hero />
-        <Projects />
-        <Members />
+        <Hero stats={stats} />
+        <Projects repos={repos} statuses={statuses} />
+        <Members contributors={contributors} />
       </main>
       <Footer />
     </div>

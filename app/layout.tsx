@@ -5,13 +5,15 @@ import './globals.css'
 
 const jetbrainsMono = JetBrains_Mono({ 
   subsets: ["latin"],
-  variable: "--font-mono"
+  variable: "--font-mono",
+  display: "swap",
 });
 
 const vt323 = VT323({ 
   weight: "400",
   subsets: ["latin"],
-  variable: "--font-display"
+  variable: "--font-display",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -42,9 +44,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const fontClasses = [jetbrainsMono.variable, vt323.variable].join(" ")
+  
   return (
-    <html lang="en" className={`${jetbrainsMono.variable} ${vt323.variable}`} suppressHydrationWarning>
-      <body className="font-mono antialiased" suppressHydrationWarning>
+    <html lang="en" className={fontClasses} suppressHydrationWarning>
+      <body className="font-mono antialiased">
         {children}
         <Analytics />
       </body>
