@@ -1,18 +1,10 @@
 import type { Metadata } from 'next'
-import { JetBrains_Mono, VT323 } from 'next/font/google'
+import { JetBrains_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
 const jetbrainsMono = JetBrains_Mono({ 
   subsets: ["latin"],
-  variable: "--font-mono",
-  display: "swap",
-});
-
-const vt323 = VT323({ 
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--font-display",
   display: "swap",
 });
 
@@ -46,7 +38,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${jetbrainsMono.variable} ${vt323.variable} font-mono antialiased`}>
+      <body className={`${jetbrainsMono.className} antialiased`}>
         {children}
         <Analytics />
       </body>
