@@ -122,13 +122,13 @@ export function Projects() {
             return (
               <div
                 key={project.id}
-                className="group relative overflow-hidden rounded border border-border bg-card p-4 transition-all hover:border-primary"
+                className="group relative overflow-hidden border border-border bg-card p-4 transition-all hover:border-primary"
                 onMouseEnter={() => setHoveredId(project.id)}
                 onMouseLeave={() => setHoveredId(null)}
               >
                 {/* Scanline effect on hover */}
                 {hoveredId === project.id && (
-                  <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(transparent_50%,rgba(0,255,0,0.03)_50%)] bg-[length:100%_4px]" />
+                  <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(transparent_50%,rgba(255,255,255,0.02)_50%)] bg-[length:100%_4px]" />
                 )}
 
                 <div className="relative z-10">

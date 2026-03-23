@@ -61,12 +61,9 @@ export function Hero() {
         </div>
 
         {/* Terminal-style info block */}
-        <div className="rounded border border-border bg-card p-4 md:p-6">
+        <div className="border border-border bg-card p-4 md:p-6">
           <div className="mb-4 flex items-center gap-2 border-b border-border pb-3">
-            <div className="h-2.5 w-2.5 rounded-full bg-destructive" />
-            <div className="h-2.5 w-2.5 rounded-full bg-chart-4" />
-            <div className="h-2.5 w-2.5 rounded-full bg-primary" />
-            <span className="ml-2 text-xs text-muted-foreground">
+            <span className="text-xs text-muted-foreground">
               ~/sovscode/README.md
             </span>
           </div>

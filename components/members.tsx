@@ -60,13 +60,10 @@ export function Members() {
         </div>
 
         {/* Members list - terminal style */}
-        <div className="rounded border border-border bg-card">
+        <div className="border border-border bg-card">
           {/* Terminal header */}
           <div className="flex items-center gap-2 border-b border-border px-4 py-2">
-            <div className="h-2.5 w-2.5 rounded-full bg-destructive" />
-            <div className="h-2.5 w-2.5 rounded-full bg-chart-4" />
-            <div className="h-2.5 w-2.5 rounded-full bg-primary" />
-            <span className="ml-2 text-xs text-muted-foreground">
+            <span className="text-xs text-muted-foreground">
               ~/sovscode/CONTRIBUTORS.md
             </span>
           </div>
